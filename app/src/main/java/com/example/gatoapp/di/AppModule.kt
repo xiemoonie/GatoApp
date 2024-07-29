@@ -6,6 +6,7 @@ import com.example.gatoapp.Constants.BASE_URL
 import com.example.gatoapp.Constants.DATABASE_NAME
 import com.example.gatoapp.data.GatoAPI
 import com.example.gatoapp.data.GatoRepository
+import com.example.gatoapp.database.BreedDao
 import com.example.gatoapp.database.DataBase
 import com.example.gatoapp.database.GatoDao
 import com.example.gatoapp.ui.GatoViewModel
@@ -17,10 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
-    single<GatoRepository> { GatoRepository(gatoAPI = get(), gatoDao = get()) }
+    single<GatoRepository> { GatoRepository(gatoAPI = get(), gatoDao = get(), breedDao = get()) }
     single<GatoDao> {
         val database: DataBase = get()
         database.gatoDao()
+    }
+    single<BreedDao> {
+        val database: DataBase = get()
+        database.breedDao()
     }
     single<GatoAPI> {
         val retrofit: Retrofit = get()
@@ -30,6 +35,7 @@ val appModule = module {
     single<DataBase> {
         val context: Context = get()
         Room.databaseBuilder(context.applicationContext, DataBase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
             .build()
     }
     single<Retrofit> {

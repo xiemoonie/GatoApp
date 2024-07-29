@@ -46,8 +46,11 @@ class MainActivity : ComponentActivity() {
 fun CatFactLayout(modifier: Modifier = Modifier) {
     val catFactViewModel: GatoViewModel = koinViewModel()
     val catFact by catFactViewModel.fact
+    val breeds by catFactViewModel.breed
     LaunchedEffect(key1 = Unit) {
         catFactViewModel.getCatFact()
+        catFactViewModel.updateBreeds()
+        catFactViewModel.getBreeds()
     }
     Column(modifier = modifier) {
         Text(
@@ -69,6 +72,19 @@ fun CatFactLayout(modifier: Modifier = Modifier) {
                 Text(
                     text = "Next",
                     modifier = Modifier
+                )
+            }
+        }
+        Column {
+            breeds.forEach() {
+                breed->
+                Text(
+                    text = "The bread is ${breed.breed}. From ${breed.country}!",
+                    modifier = Modifier
+                        .border(1.dp, Color.Blue, RoundedCornerShape(15.dp))
+                        .shadow(16.dp, RoundedCornerShape(15.dp))
+                        .background(color = MaterialTheme.colorScheme.background)
+                        .padding(5.dp)
                 )
             }
         }

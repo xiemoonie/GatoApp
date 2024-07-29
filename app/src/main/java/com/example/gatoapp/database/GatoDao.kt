@@ -12,4 +12,5 @@ interface GatoDao {
 
     @Insert
     fun insert(vararg gatoEntity: GatoEntity)
+
 }

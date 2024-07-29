@@ -3,7 +3,9 @@ package com.example.gatoapp.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [GatoEntity::class], version = 1)
+@Database(entities = [GatoEntity::class, EntityBreed::class ], version = 2)
 abstract class DataBase : RoomDatabase() {
     abstract fun gatoDao(): GatoDao
+    abstract fun breedDao() : BreedDao
+
 }
