@@ -9,6 +9,7 @@ import com.example.gatoapp.data.GatoRepository
 import com.example.gatoapp.database.BreedDao
 import com.example.gatoapp.database.DataBase
 import com.example.gatoapp.database.GatoDao
+import com.example.gatoapp.database.MIGRATION_1_2
 import com.example.gatoapp.ui.GatoViewModel
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,7 +36,7 @@ val appModule = module {
     single<DataBase> {
         val context: Context = get()
         Room.databaseBuilder(context.applicationContext, DataBase::class.java, DATABASE_NAME)
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
     single<Retrofit> {
