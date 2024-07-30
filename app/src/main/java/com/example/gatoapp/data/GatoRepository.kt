@@ -29,5 +29,9 @@ class GatoRepository(val gatoAPI: GatoAPI, val gatoDao: GatoDao, val breedDao: B
     fun getBreed() : Flow<List<EntityBreed>>{
         return breedDao.getBreed()
     }
+    fun eraseBreedsFromDataBase(breed : String){
+          breedDao.deleteBreed(breed)
+    }
+
 
 }

@@ -15,7 +15,19 @@ import kotlinx.coroutines.launch
 class GatoViewModel(val repository: GatoRepository) : ViewModel() {
     val index = MutableStateFlow(0)
     val fact = mutableStateOf("Loading...")
-    val breed = mutableStateOf<List<EntityBreed>>(emptyList());
+    val breed = mutableStateOf<List<EntityBreed>>(emptyList())
+    val checkboxes = mutableStateOf<List<String>>(emptyList())
+
+    fun selectBreed(breed : String){
+        var checkBoxes = checkboxes.value.toMutableList()
+        checkBoxes.add(breed)
+        checkboxes.value = checkBoxes
+    }
+    fun unselectBreed(breed : String){
+        var checkBoxes = checkboxes.value.toMutableList()
+        checkBoxes.remove(breed)
+        checkboxes.value = checkBoxes
+    }
     fun getPrevious() {
         if (index.value > 0) {
             index.value -= 1
@@ -45,6 +57,13 @@ class GatoViewModel(val repository: GatoRepository) : ViewModel() {
         }
     }
 
+    fun deleteBreed(){
+        viewModelScope.launch(Dispatchers.IO) {
+            checkboxes.value.forEach() {
+                repository.eraseBreedsFromDataBase(it)
+            }
+        }
+    }
     fun getBreeds(){
         viewModelScope.launch(Dispatchers.IO){
              repository.getBreed().collect({breed.value = it})
